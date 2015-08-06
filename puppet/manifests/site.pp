@@ -15,9 +15,6 @@ class base {
   package { "vim":
     ensure  => present,
   } 
-  package { "vim-enhanced":
-    ensure => present,
-  }
   package { "w3m":
     ensure => present,
   }
@@ -27,7 +24,7 @@ class base {
   package { "imagemagick":
     ensure => present,
   }
-  package { "silversearcher-ag":
+  package { "pv":
     ensure => present,
   }
 }
@@ -55,56 +52,34 @@ class apache2 {
     ensure  => present
   }
 
-/*  file { "/etc/apache2/conf-available/vhost.conf":*/
-    /*replace => true,*/
-    /*ensure  => present,*/
-    /*source  => "/vagrant/files/apache2/conf-available/vhost.conf",*/
-  /*}*/
+  file { "/etc/apache2/conf-available/vhost.conf":
+    replace => true,
+    ensure  => present,
+    source  => "/vagrant/files/apache2/conf-available/vhost.conf",
+  }
   
-  /*file { "/etc/apache2/apache2.conf":*/
-    /*replace => true,*/
-    /*ensure  => present,*/
-    /*source  => "/vagrant/files/apache2/conf/apache2.conf",*/
-  /*}  */
-  /*file { "/etc/apache2/httpd.conf":*/
-    /*replace => true,*/
-    /*ensure  => present,*/
-    /*source  => "/vagrant/files/apache2/conf/httpd.conf",*/
-  /*} */   
+  file { "/etc/apache2/apache2.conf":
+    replace => true,
+    ensure  => present,
+    source  => "/vagrant/files/apache2/conf/apache2.conf",
+  } 
+  file { "/etc/apache2/httpd.conf":
+    replace => true,
+    ensure  => present,
+    source  => "/vagrant/files/apache2/conf/httpd.conf",
+  }   
 
   # Uncomment if you want to create these folders separately
+  file { "/etc/apache2/vhosts_ssl":
+    ensure => "directory",
+  }
 
-/*  file { "/etc/apache2/vhosts_ssl":*/
-    /*ensure => "directory",*/
-  /*}*/
-  /*file { "/vagrant/www":*/
-    /*ensure => "directory",*/
-  /*}*/
-  /*file { "/vagrant/www/drupal7.dev":*/
-    /*ensure  => "directory",*/
-  /*}*/
-  /*file { "/vagrant/www/drupal7.dev/docroot":*/
-    /*ensure => "directory",*/
-  /*}*/
-  /*file { "/vagrant/www/drupal7.dev/log":*/
-    /*ensure => "directory",*/
-  /*}  */
-  /*file { "/vagrant/www/drupal8.dev":*/
-    /*ensure  => "directory",*/
-  /*}*/
-  /*file { "/vagrant/www/drupal8.dev/docroot":*/
-    /*ensure => "directory",*/
-  /*}*/
-  /*file { "/vagrant/www/drupal8.dev/log":*/
-    /*ensure => "directory",*/
-  /*}        */
-
-  /*file { "/etc/apache2/vhosts":*/
-    /*replace => true,*/
-    /*ensure  => present,*/
-    /*source  => "/vagrant/files/apache2/vhosts",*/
-    /*recurse => true,*/
-  /*}*/
+  file { "/etc/apache2/vhosts":
+    replace => true,
+    ensure  => present,
+    source  => "/vagrant/files/apache2/vhosts",
+    recurse => true,
+  }
   
 }
 
@@ -115,12 +90,12 @@ class mysql {
      'mysql-client']:
       ensure => installed,
   }
-/*  file { "/etc/mysql/my.cnf":*/
-    /*replace => true,*/
-    /*ensure  => present,*/
-    /*require => Package['mysql-server'],*/
-    /*source  => "/vagrant/files/mysqld/my.cnf",*/
-  /*}*/
+  file { "/etc/mysql/my.cnf":
+    replace => true,
+    ensure  => present,
+    require => Package['mysql-server'],
+    source  => "/vagrant/files/mysqld/my.cnf",
+  }
 
   service { 'mysql':
     name   => 'mysql',
@@ -151,6 +126,12 @@ class mysql {
     ensure => present
   }
   package { "libapache2-mod-php5":
+    ensure => present
+  }
+  package { "php5-memcached":
+    ensure => present
+  }
+  package { "php5-xdebug":
     ensure => present
   }
 }
