@@ -6,4 +6,7 @@ echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' > /home/vagrant/.bashrc
 source /home/vagrant/.bashrc
 composer global require drush/drush:7.*
 mysql -u root -h 127.0.0.1 -e "GRANT ALL ON *.* TO 'root'@'%';FLUSH PRIVILEGES;"
+sudo a2enmod rewrite
+sudo service apache2 restart
+sudo service mysql restart
 
