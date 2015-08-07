@@ -134,6 +134,9 @@ class mysql {
   package { "php5-xdebug":
     ensure => present
   }
+  package { "php5-curl":
+    ensure => present
+  }
 }
 
 include base
